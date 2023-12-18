@@ -66,17 +66,17 @@ defmodule BudgetPlanner.Impl.BudgetCalculator do
   end
 
   defp biweekly_calc(income_streams) do
-    Enum.find(income_streams, empty_amount(), &(get_pay_schedule(&1.frequency, "bi-weekly")))
+    Enum.filter(income_streams, &(get_pay_schedule(&1.frequency, "bi-weekly")))
     |> Enum.reduce(0, &(&1.amount * 2 + &2))
   end
 
   defp hourly_calc(income_streams) do
-    Enum.find(income_streams, empty_amount(), &(get_pay_schedule(&1.frequency, "hourly")))
+    Enum.filter(income_streams, &(get_pay_schedule(&1.frequency, "hourly")))
     |> Enum.reduce(0, &(&1.amount * 40 * 2 + &2))
   end
 
   defp weekly_calc(income_streams) do
-    Enum.find(income_streams, empty_amount(),&(get_pay_schedule(&1.frequency, "weekly")))
+    Enum.filter(income_streams, &(get_pay_schedule(&1.frequency, "weekly")))
     |> Enum.reduce(0, &(&1.amount * 4.5 + &2))
 
   end
