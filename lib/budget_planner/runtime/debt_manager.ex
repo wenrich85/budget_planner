@@ -27,6 +27,10 @@ defmodule BudgetPlanner.Runtime.DebtManager do
     {:reply, BudgetCalculator.monthly_calculations(budget), budget}
   end
 
+  def handle_call(:calculate_totals, _from, budget) do
+    reply_with_calculator(budget)
+  end
+
   def via_tuple(name) do
     BudgetPlanner.Runtime.BudgetRegistry.via_tuple({__MODULE__, name})
   end

@@ -19,6 +19,10 @@ defmodule BudgetPlanner do
     GenServer.call(via_tuple(name), :calculate_expenses)
   end
 
+  def calculate_totals(name) do
+    GenServer.call(via_tuple(name), :calculate_totals)
+  end
+
   def get_state(name) do
     :sys.get_state(via_tuple(name))
   end
