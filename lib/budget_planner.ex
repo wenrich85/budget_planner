@@ -11,6 +11,10 @@ defmodule BudgetPlanner do
     GenServer.call(via_tuple(name), {:add_income_stream, income_data})
   end
 
+  def delete_income_stream(name, income_id) do
+    GenServer.call(via_tuple(name), {:delete_income_stream, income_id})
+  end
+
   def add_expense(name, expense) do
     GenServer.call(via_tuple(name), {:add_expense, expense})
   end

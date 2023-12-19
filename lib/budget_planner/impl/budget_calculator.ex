@@ -83,6 +83,4 @@ defmodule BudgetPlanner.Impl.BudgetCalculator do
 
   def get_pay_schedule(schedule, frequency), do: schedule == frequency
 
-  defp empty_amount, do: [%{amount: 0}]
-
 end

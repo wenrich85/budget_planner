@@ -17,6 +17,11 @@ defmodule BudgetPlanner.Runtime.DebtManager do
     reply_with_calculator(new_budget)
   end
 
+  def handle_call({:delete_income_stream, income_id}, _from, budget) do
+    new_budget = Budget.delete_income_stream(budget, income_id)
+    reply_with_calculator(new_budget)
+  end
+
   def handle_call({:add_expense, expense}, _from, budget) do
     new_expense = Expense.new(expense)
     new_budget = Budget.add_expense(budget, new_expense)

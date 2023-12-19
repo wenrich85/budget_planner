@@ -15,6 +15,10 @@ defmodule BudgetPlanner.Impl.Budget do
     struct!(budget,income_streams: [ income_stream| budget.income_streams])
   end
 
+  def delete_income_stream(budget, income_id) do
+    struct!(budget, income_streams: Enum.filter(budget.income_streams, &(&1.income_id != income_id)))
+  end
+
   def add_expense(budget, expense ) do
     struct!(budget, expenses: [ expense | budget.expenses])
   end

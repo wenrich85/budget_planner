@@ -1,5 +1,5 @@
 defmodule BudgetPlanner.Impl.Expense do
-  defstruct ~w[title amount date_due frequency type bigger_debt? total_owed]a
+  defstruct ~w[title amount date_due frequency type bigger_debt? total_owed expense_id]a
 
   def new(), do: %__MODULE__{}
 
@@ -11,7 +11,19 @@ defmodule BudgetPlanner.Impl.Expense do
       frequency: frequency,
       type: type,
       bigger_debt?: bigger_debt,
-      total_owed: total_owed
+      total_owed: total_owed,
+      expense_id: add_expense_id(title)
     }
+  end
+
+  def add_expense_id(source) do
+    source
+    |> String.downcase()
+    |> String.replace(" ", "")
+    |> add_random_number()
+  end
+
+  defp add_random_number(source) do
+    source <> "-"<>(:rand.uniform(100) |> to_string())
   end
 end
