@@ -42,7 +42,7 @@ defmodule BudgetPlanner.Impl.BudgetCalculator do
     |> bigger_debt_calc()
   end
 
-  def bigger_debt_calc(list_of_debts) when length(list_of_debts) > 0, do: Enum.reduce(0, &(&1.total_owed + &2))
+  def bigger_debt_calc(list_of_debts) when length(list_of_debts) > 0, do: Enum.reduce(list_of_debts, 0, &(&1.total_owed + &2))
   def bigger_debt_calc(_), do: 0
 
   def investment_percentage do
@@ -72,7 +72,7 @@ defmodule BudgetPlanner.Impl.BudgetCalculator do
 
   defp hourly_calc(income_streams) do
     Enum.filter(income_streams, &(get_pay_schedule(&1.frequency, "hourly")))
-    |> Enum.reduce(0, &(&1.amount * 40 * 2 + &2))
+    |> Enum.reduce(0, &(&1.amount * 40 * 5 * 4.5 + &2))
   end
 
   defp weekly_calc(income_streams) do
