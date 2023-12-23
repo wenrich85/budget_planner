@@ -25,7 +25,7 @@ defmodule BudgetPlanner.Impl.Expense do
   end
 
   defp add_random_number(source) do
-    source <> "-"<>(:rand.uniform(100) |> to_string())
+    source <> "-"<>(:rand.uniform(100000000) |> to_string())
   end
 
   def enumerate_by_frequency(expense) do
