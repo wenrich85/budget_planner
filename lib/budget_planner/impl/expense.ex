@@ -31,7 +31,7 @@ defmodule BudgetPlanner.Impl.Expense do
   def enumerate_by_frequency(expense) do
     case String.downcase(expense.frequency) do
       "bi-weekly" -> duplicate_expense(expense, 2)
-      "weekly" -> [ duplicate_expense(expense, 4), truncated_expense(expense)]
+      "weekly" -> [  truncated_expense(expense) | duplicate_expense(expense, 4) ]
       _ -> [ expense ]
     end
   end
@@ -48,5 +48,9 @@ defmodule BudgetPlanner.Impl.Expense do
     else: {:halt, acc}
     end)
   end
+
+  # Add date to id
+
+  # Add days to dupliacte
 
 end

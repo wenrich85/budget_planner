@@ -27,8 +27,8 @@ defmodule BudgetPlanner.Runtime.DebtManager do
       expense
       |> Expense.new()
       |> Expense.enumerate_by_frequency()
-      |> Enum.reduce(budget, &Budget.add_expense(&2, &1))
       |> IO.inspect()
+      |> Enum.reduce(budget, &Budget.add_expense(&2, &1))
     reply_with_calculator(new_budget)
   end
 
