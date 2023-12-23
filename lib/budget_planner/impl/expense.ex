@@ -30,13 +30,23 @@ defmodule BudgetPlanner.Impl.Expense do
 
   def enumerate_by_frequency(expense) do
     case String.downcase(expense.frequency) do
-      "bi-weekly" -> [ expense, expense ]
-      "weekly" -> [ expense, expense, expense, expense, truncated_expense(expense)]
+      "bi-weekly" -> duplicate_expense(expense, 2)
+      "weekly" -> [ duplicate_expense(expense, 4), truncated_expense(expense)]
       _ -> [ expense ]
     end
   end
 
   defp truncated_expense(expense) do
     struct!(expense, amount: expense.amount * @truncated_week)
+    |> new()
   end
+
+  defp duplicate_expense(expense, times) do
+    Enum.reduce_while(1..times, [expense], fn _x, acc ->
+      if length(acc) < times, do:
+      {:cont, [ new(expense) | acc ]},
+    else: {:halt, acc}
+    end)
+  end
+
 end
