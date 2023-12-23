@@ -23,8 +23,12 @@ defmodule BudgetPlanner.Runtime.DebtManager do
   end
 
   def handle_call({:add_expense, expense}, _from, budget) do
-    new_expense = Expense.new(expense)
-    new_budget = Budget.add_expense(budget, new_expense)
+    new_budget =
+      expense
+      |> Expense.new()
+      |> Expense.enumerate_by_frequency()
+      |> Enum.reduce(budget, &Budget.add_expense(&2, &1))
+      |> IO.inspect()
     reply_with_calculator(new_budget)
   end
 
