@@ -1,13 +1,13 @@
 defmodule BudgetPlanner.Impl.Budget do
-  defstruct ~w[expenses investments savings income_streams]a
+  defstruct ~w[expenses investments savings income_streams savings_percentage]a
 
   def new() do
     %__MODULE__{
       expenses: [],
-      savings: 0,
+      savings: [],
       investments: [],
       income_streams: [],
-
+      savings_percentage: 0
     }
   end
 
@@ -23,8 +23,12 @@ defmodule BudgetPlanner.Impl.Budget do
     struct!(budget, expenses: [ expense | budget.expenses])
   end
 
+  def add_savings_percentage(budget, savings_percentage) do
+    struct!(budget, savings_percentage: savings_percentage)
+  end
+
   def add_savings(budget, saving) do
-    struct!(budget, savings: saving + budget.savings)
+    struct!(budget, savings: [ saving | budget.savings ])
   end
 
   def add_investment( budget, investment) do

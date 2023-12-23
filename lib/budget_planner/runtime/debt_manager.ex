@@ -36,9 +36,32 @@ defmodule BudgetPlanner.Runtime.DebtManager do
     reply_with_calculator(budget)
   end
 
+  def handle_call({:add_savings_percentage, savings_percentage}, _from, budget) do
+    Budget.add_savings_percentage(budget, savings_percentage)
+    |> reply_with_calculator()
+  end
+
+  def handle_call({:add_savings, savings}, _from, budget) do
+    Budget.add_savings(budget, savings)
+    |> reply_with_calculator()
+  end
+
+  def handle_call(:get_income_streams, _from, budget) do
+    reply_with_list(budget, budget.income_streams)
+  end
+
+  def handle_call(:get_savings_goals, _from, budget) do
+    reply_with_list(budget, budget.savings)
+  end
+
+  def handle_call(:list_expenses, _from, budget) do
+    reply_with_list(budget, budget.expenses)
+  end
+
   def via_tuple(name) do
     BudgetPlanner.Runtime.BudgetRegistry.via_tuple({__MODULE__, name})
   end
 
   defp reply_with_calculator(budget), do: {:reply, BudgetCalculator.monthly_calculations(budget), budget}
+  defp reply_with_list(budget, list), do: {:reply, list, budget}
 end

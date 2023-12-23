@@ -4,14 +4,15 @@ defmodule BudgetPlanner.Impl.BudgetCalculator do
   def monthly_calculations(budget) do
     income = calculate_monthly_income(budget.income_streams)
     expenses = calculate_monthly_expenses(budget.expenses)
+    savings = calculate_monthly_savings(budget.savings)
     %__MODULE__{}
     |> struct!(monthly_income: income)
     |> struct!(monthly_expenses: expenses)
-    |> struct!( monthly_saving: savings_percentage(income))
-    |> struct!(current_savings: budget.savings)
+    |> struct!( monthly_saving: savings)
+    |> struct!(current_savings: savings)
     |> struct!(total_savings_needed: calculate_savings_needed(expenses))
     |> struct!(percentage_used: expense_percentage(expenses, income))
-    |> struct!(amount_remaining: calc_remaining(income, expenses))
+    |> struct!(amount_remaining: calc_remaining(income, expenses, savings))
     |> struct!(total_debt: total_debt_calc(budget.expenses))
   end
 
@@ -23,16 +24,20 @@ defmodule BudgetPlanner.Impl.BudgetCalculator do
     Enum.reduce(monthly_expenses, 0, &(&1.amount + &2))
   end
 
+  def calculate_monthly_savings(monthly_savings) do
+    Enum.reduce(monthly_savings, 0, &(&1.amount + &2))
+  end
+
   def calculate_savings_needed(monthly_expenses) do
     monthly_expenses * 6
   end
 
-  def savings_percentage(income) do
-    income * 0.25
+  def savings_percentage(income, savings_percent) do
+    income * savings_percent
   end
 
-  def calc_remaining(monthly_income, monthly_expenses) do
-    monthly_income - monthly_expenses - savings_percentage(monthly_income)
+  def calc_remaining(monthly_income, monthly_expenses, savings) do
+    monthly_income - monthly_expenses - savings
   end
 
   def calc_remaining(budget_calc), do: budget_calc

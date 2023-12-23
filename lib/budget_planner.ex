@@ -27,6 +27,14 @@ defmodule BudgetPlanner do
     GenServer.call(via_tuple(name), :calculate_totals)
   end
 
+  def add_savings_percentage(name, savings_percentage) do
+    GenServer.call(via_tuple(name), {:add_savings_percentage, savings_percentage})
+  end
+
+  def add_savings(name, savings) do
+    GenServer.call(via_tuple(name), {:add_savings, savings})
+  end
+
   def get_state(name) do
     :sys.get_state(via_tuple(name))
   end
